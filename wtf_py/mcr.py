@@ -10,7 +10,23 @@ from scipy.optimize import curve_fit
 
 class MCR:
     def __init__(self):
-        """__init__ _summary_"""
+        """Master Recession Curve (MCR) class to fit and apply the MCR.
+
+        Notes
+        -----
+        The MCR is a simple linear recession model that can be used to estimate the
+        recession of the water table. The MCR is defined as:
+
+            dh/dt = -a * h + b
+
+        where h is the water table, a and b are the parameters of the MCR.
+
+        The MCR can be fitted to the falling sections of the water table fluctuations.
+        The falling sections are defined as the sections where the water table is
+        decreasing. The MCR can be used to extrapolate the water table during rise
+        events.
+
+        """
         self.name = "MCR"
         self.nparam = 2
         self.parameters = DataFrame(
@@ -18,44 +34,11 @@ class MCR:
             data=[[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]],
             columns=["initial", "optimal", "stderr"],
         )
-
-    def get_rises(self, wt, rise_rule="rises") -> DataFrame:
-        """Method to get the rises from the water table data.
-
-        Parameters
-        ----------
-        wt: pd.Series
-            time series of the water table fluctuations.
-        rise_rule: str, optional
-            Rule to define the rises. Options are 'both' or 'rises'. 'both' means that
-            both the rises and the extrapolated values using the MCR are used to define
-            the rises. 'rises' means that only the rises are used to define the rises.
-            Default is 'both'.
-
-        Return
-        ------
-        rises: pd.DataFrame
-            DataFrame with a IntervalIndex and the rises. The index is an IntervalIndex
-            with the start and end of the rise, and the values are the water table rises
-            during the rise.
-
-        """
-        # 1. Get the points for which to consider the rises
-        events_int = self.get_recharge_sections(wt, rise_rule=rise_rule)
-
-        # 2. Extrapolate using the MCR
-        extrapolated = self.get_extrapolated(wt, events_int)
-
-        # 3. Compute the rises
-        rises = DataFrame(
-            index=events_int, data=wt[events_int.right].values - extrapolated.values
-        )
-
-        # 4. Return the rises
-        return rises[rises.values > 0]
+        self.fall_sections = None
+        self.dhdt = None
 
     def get_fall_sections(self, wt: Series) -> DataFrame:
-        """Internal method to get the fall sections of the water table fluctuations.
+        """Get the fall sections of the water table fluctuations.
 
         Parameters
         ----------
@@ -76,12 +59,12 @@ class MCR:
         changes = DataFrame(index=dtint, data=dh.values)
 
         # Only keep the falls that are negative
-        falls = changes[changes.values < 0]
+        fall_sections = changes[changes.values < 0]
 
-        return DataFrame(index=dtint, data=falls.values)
+        return fall_sections
 
     def get_dhdt(self, wt: Series) -> Series:
-        """Internal method to get the dh/dt values of the water table fluctuations.
+        """Get the dh/dt values from the water table fluctuations.
 
         Parameters
         ----------
@@ -92,10 +75,20 @@ class MCR:
         -------
         pd.Series
             Series with the dh/dt values of the water table fluctuations.
+
+        Notes
+        -----
+        The dh/dt values are only computed for the falling sections of the water table
+        fluctuations.
+
         """
+        # Compute the time differences in days
         dt = wt.index.diff()[1:].total_seconds() / (3600 * 24)
 
+        # Compute the differences in water table
         dh = wt.diff()[1:]
+
+        # Compute dh/dt
         dhdt = dh / dt
         dhdt.index = dh.index
 
@@ -106,7 +99,21 @@ class MCR:
 
         Parameters
         ----------
-        wt :
+        wt : pd.Series
+            Time series of the water table fluctuations.
+        a : float, optional
+            Parameter a of the MCR, by default None
+        b : float, optional
+            Parameter b of the MCR, by default None
+
+        Returns
+        -------
+        pd.Series
+            Series with the estimated dh/dt values of the water table fluctuations.
+
+        Notes
+        -----
+        If a and b are not provided, the optimal parameters from the fit are used.
 
         """
         if a is None or b is None:
@@ -133,6 +140,7 @@ class MCR:
         """
         # Fit the MCR to the water table data using curve_fit
         dhdt = self.get_dhdt(wt)
+        self.dhdt = dhdt
         popt, pcov = curve_fit(
             f=self.estimate_dhdt, xdata=wt.loc[dhdt.index], ydata=dhdt
         )

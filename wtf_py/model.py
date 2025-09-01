@@ -22,7 +22,19 @@ class Model:
             DatetimeIndex.
         name : str, optional
             Name of the model, by default None
-        mcr : rise instance, optional
+        mcr : MCR instance, optional
+            Instance of the MCR class to use for extrapolation of the water table
+            before computing the rises, by default None
+
+        Notes
+        -----
+        The Model class can be used to estimate groundwater recharge from water table
+        data. The recharge is estimated as the product of the rises in the water table
+        and the specific yield (sy). The rises can be computed using different methods,
+        which can be specified using the rise_rule parameter in the estimate method.
+
+        If an instance of the MCR class is provided, the Master Recession Curve (MCR)
+        is used to extrapolate the water table before computing the rises.
 
         """
         validate_data(wt)
@@ -60,7 +72,19 @@ class Model:
 
         """
         if self.mcr is None:
-            pass
+            raise ValueError(
+                "No MCR instance provided. Please provide an instance of "
+                "the MCR class when creating the Model instance."
+            )
+
+        if tmin is None:
+            tmin = self.wt.index.min()
+        if tmax is None:
+            tmax = self.wt.index.max()
+
+        wt_fit = self.wt[(self.wt.index >= tmin) & (self.wt.index <= tmax)]
+
+        self.mcr.fit_mcr(wt_fit)
 
     def get_recharge_sections(self, wt: Series, rise_rule="rises") -> DataFrame:
         """Method to get the intervals on which to compute the recharge.
@@ -101,7 +125,7 @@ class Model:
         self.events = events_int
         return events_int
 
-    def estimate(self, sy=None, fit_mcr=False, rise_rule="rises") -> DataFrame:
+    def estimate_recharge(self, sy=None, fit_mcr=False, rise_rule="rises") -> DataFrame:
         """Method to estimate the groundwater recharge.
 
         Parameters
@@ -115,7 +139,6 @@ class Model:
         -------
         pandas.Series:
             Pandas Series with a DatetimeIndex and the values of the recharge estimates.
-
 
         Notes
         -----
@@ -206,7 +229,7 @@ class Model:
 
         # Plot the recharge
         if self.events is not None:
-            self.estimate().plot(ax=axs[1], label="Recharge")
+            self.estimate_recharge().plot(ax=axs[1], label="Recharge")
 
         axs[0].set_ylabel("Water table [m]")
         axs[1].set_ylabel("Recharge [m/d]")
