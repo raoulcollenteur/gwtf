@@ -1,4 +1,3 @@
-from .mcr import Exponential
+from .mcr import MCR
 from .model import Model
-from .rises import MCR, RISE
 from .version import show_versions, version

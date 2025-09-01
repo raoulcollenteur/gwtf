@@ -6,14 +6,13 @@ Raoul Collenteur, 2025
 
 import matplotlib.pyplot as plt
 from numpy import nan
-from pandas import DataFrame, Timedelta
+from pandas import DataFrame, IntervalIndex, Series
 
 from .core import validate_data
-from .rises import RISE
 
 
 class Model:
-    def __init__(self, wt, name=None, rise_method=RISE()):
+    def __init__(self, wt, name=None, mcr=None):
         """Basic model to estimate groundwater recharge from water table data.
 
         Parameters
@@ -23,11 +22,11 @@ class Model:
             DatetimeIndex.
         name : str, optional
             Name of the model, by default None
-        rise_method : rise instance, optional
-            Method to extract the rises from the water table data, by default RISE()
+        mcr : rise instance, optional
+
         """
         validate_data(wt)
-        self.wt = wt
+        self.wt = wt.dropna()
         self.name = name
 
         # Settings dict
@@ -40,7 +39,7 @@ class Model:
                                     columns=["initial", "optimal", "stderr"])
 
         self.filter = None
-        self.rise_method = rise_method
+        self.mcr = mcr
         self.events = None
 
     def fit_mcr(self, tmin=None, tmax=None):
@@ -63,30 +62,44 @@ class Model:
         if self.mcr is None:
             pass
 
-    def get_events(self, rise_rule="rises", **kwargs):
-        """Method to get the recharge events from the water table data.
+    def get_recharge_sections(self, wt: Series, rise_rule="rises") -> DataFrame:
+        """Method to get the intervals on which to compute the recharge.
 
         Parameters
         ----------
-        **kwargs: keyword arguments
-            Additional keyword arguments to pass to the rise_method.get_rises method.
+        wt : pd.Series
+            Time series of the water table fluctuations.
 
         Returns
         -------
-        pd.DataFrame
-            DataFrame with the recharge events. The index is an IntervalIndex with the
-            start and end of the rise, and the values are the water table rises for each
-            interval.
+        pd.IntervalIndex
+            IntervalIndex with the events to compute the recharge on.
 
         """
-        self.events = self.rise_method.get_rises(self.wt, rise_rule=rise_rule, **kwargs)
+        dt = wt.index.diff()[1:]
+        dh = wt.diff()[1:]
 
-        if self.events is None or self.events.empty:
+        # Create an IntervalIndex for which the rises are computed
+        dtint = IntervalIndex.from_arrays(left=dh.index - dt, right=dh.index)
+
+        changes = DataFrame(index=dtint, data=dh.values)
+
+        # 1. Get the points for which to consider the rises
+        if rise_rule not in ["both", "rises"]:
+            raise ValueError("rise_rule should be 'both' or 'rises'.")
+
+        # Get only the rise sections
+        if rise_rule == "rises":
+            events_int = changes[changes.values > 0].index
+        # Get every point
+        elif rise_rule == "both":
+            events_int = changes.index
+
+        if events_int is None or events_int.empty:
             raise ValueError("No recharge events found. Please check the water table "
                              "data and the rise_method.")
-
-        return self.events
-
+        self.events = events_int
+        return events_int
 
     def estimate(self, sy=None, fit_mcr=False, rise_rule="rises") -> DataFrame:
         """Method to estimate the groundwater recharge.
@@ -122,8 +135,25 @@ class Model:
         if fit_mcr:
             self.fit_mcr()
 
-        # 2. Get the recharge events
-        events = self.get_events(rise_rule=rise_rule)
+        # 2. Get the points for which to consider the rises
+        events_int = self.get_recharge_sections(self.wt, rise_rule=rise_rule)
+
+        # 3. Compute the rises
+        if self.mcr is not None:
+            # 3. Extrapolate using the MCR
+            left_hand = self.mcr.get_extrapolated(self.wt, events_int)
+
+        else:
+            left_hand = Series(index=events_int.left, data=self.wt[events_int.left])
+
+        #
+        rises = DataFrame(
+            index=events_int,
+            data=self.wt[events_int.right].values - left_hand.values,
+        )
+
+        rises = rises[rises.values > 0]
+        self.rises = rises
 
         if sy is None:
             if self.parameters.loc["sy", "optimal"] is nan:
@@ -133,22 +163,13 @@ class Model:
             else:
                 sy = self.parameters.loc["sy", "optimal"]
 
-        freq = self.settings["freq"]
-
         # 3. Compute the recharge as the product of the events and the specific yield
-        recharge = events * sy
-
-        # Compute the time intervals for the events
-        dt = (events.index.right - events.index.left) / Timedelta(f"1{freq}")
+        recharge = rises * sy
 
         # Set the index to the right side of the intervals
-        recharge.index = events.index.right
+        recharge.index = rises.index.right
 
-        # Resample the recharge to the desired frequency and fill missing values
-        # by backfilling
-        recharge = recharge.divide(dt, axis=0).resample(f"{freq}").bfill()
-
-        # CLip negative values to zero
+        # Clip negative values to zero
         recharge[recharge < 0] = 0
 
         return recharge
