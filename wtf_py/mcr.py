@@ -173,12 +173,16 @@ class MCR:
         recession = self.estimate_dhdt(wt[events.left], a, b)
         return wt[events.left] + recession.values
 
-    def plot():
+    def plot(self, wt) -> plt.Axes:
         """Plot the fittedmaster recession curve for diagnostic checking."""
         _, ax = plt.subplots(figsize=(6, 4))
 
-        # plt.plot(wt.loc[dhdt.index], -dhdt, marker=".", linestyle=" ", color="k")
-        # plt.plot(wt.loc[dhdt.index], -dhdt_est, color="C1")
+        dhdt_est = self.estimate_dhdt(self.wt.loc[self.dhdt.index])
+
+        plt.plot(
+            wt.loc[self.dhdt.index], -self.dhdt, marker=".", linestyle=" ", color="k"
+        )
+        plt.plot(wt.loc[self.dhdt.index], -dhdt_est, color="C1")
 
         ax.set_xlabel("Water table (m asl)")
         ax.set_ylabel("-dh/dt (m/d)")

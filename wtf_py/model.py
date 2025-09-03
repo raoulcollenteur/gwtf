@@ -86,7 +86,7 @@ class Model:
 
         self.mcr.fit_mcr(wt_fit)
 
-    def get_recharge_sections(self, wt: Series, rise_rule="rises") -> DataFrame:
+    def get_recharge_event_intervals(self, wt: Series, rise_rule="rises") -> Series:
         """Method to get the intervals on which to compute the recharge.
 
         Parameters
@@ -106,7 +106,7 @@ class Model:
         # Create an IntervalIndex for which the rises are computed
         dtint = IntervalIndex.from_arrays(left=dh.index - dt, right=dh.index)
 
-        changes = DataFrame(index=dtint, data=dh.values)
+        changes = Series(index=dtint, data=dh.values)
 
         # 1. Get the points for which to consider the rises
         if rise_rule not in ["both", "rises"]:
@@ -125,7 +125,7 @@ class Model:
         self.events = events_int
         return events_int
 
-    def estimate_recharge(self, sy=None, fit_mcr=False, rise_rule="rises") -> DataFrame:
+    def estimate_recharge(self, sy=None, fit_mcr=False, rise_rule="rises") -> Series:
         """Method to estimate the groundwater recharge.
 
         Parameters
@@ -159,7 +159,7 @@ class Model:
             self.fit_mcr()
 
         # 2. Get the points for which to consider the rises
-        events_int = self.get_recharge_sections(self.wt, rise_rule=rise_rule)
+        events_int = self.get_recharge_event_intervals(self.wt, rise_rule=rise_rule)
 
         # 3. Compute the rises
         if self.mcr is not None:
@@ -170,7 +170,7 @@ class Model:
             left_hand = Series(index=events_int.left, data=self.wt[events_int.left])
 
         #
-        rises = DataFrame(
+        rises = Series(
             index=events_int,
             data=self.wt[events_int.right].values - left_hand.values,
         )
@@ -185,12 +185,15 @@ class Model:
                                  "self.parameters DataFrame.")
             else:
                 sy = self.parameters.loc["sy", "optimal"]
+        else:
+            self.parameters.loc["sy", "optimal"] = sy
 
         # 3. Compute the recharge as the product of the events and the specific yield
         recharge = rises * sy
 
         # Set the index to the right side of the intervals
         recharge.index = rises.index.right
+        recharge.name = "recharge"
 
         # Clip negative values to zero
         recharge[recharge < 0] = 0
@@ -221,7 +224,7 @@ class Model:
 
         # Plot the rises
         if self.events is not None:
-            for interval, rise in self.events.itertuples():
+            for interval, rise in self.rises.items():
                 axs[0].plot([interval.left, interval.right],
                             [self.wt.loc[interval.left],
                              self.wt.loc[interval.left] + rise],
@@ -232,6 +235,8 @@ class Model:
             self.estimate_recharge().plot(ax=axs[1], label="Recharge")
 
         axs[0].set_ylabel("Water table [m]")
+        axs[0].legend(["Water table", "Rises"])
+
         axs[1].set_ylabel("Recharge [m/d]")
         axs[1].set_xlabel("Time")
 
