@@ -6,7 +6,7 @@
 # wtf-py: Water Table Fluctuation Method in Python
 
 [![PyPI version](https://img.shields.io/pypi/v/wtf-py.svg)](https://pypi.org/project/wtf-py/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub License](https://img.shields.io/github/license/raoulcollenteur/wtf-py)](https://github.com/raoulcollenteur/wtf-py?tab=GPL-3.0-1-ov-file)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![Tests](https://github.com/raoulcollenteur/wtf-py/actions/workflows/test.yml/badge.svg)](https://github.com/raoulcollenteur/wtf-py/actions)
 

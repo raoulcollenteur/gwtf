@@ -185,6 +185,6 @@ class MCR:
         plt.plot(wt.loc[self.dhdt.index], -dhdt_est, color="C1")
 
         ax.set_xlabel("Water table (m asl)")
-        ax.set_ylabel("-dh/dt (m/d)")
+        ax.set_ylabel("$-dh/dt$ [L/T]")
 
         return ax

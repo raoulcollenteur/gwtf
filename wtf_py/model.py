@@ -200,7 +200,7 @@ class Model:
 
         return recharge
 
-    def plot(self, ax=None):
+    def plot(self, ax=None, figsize=(10, 6)):
         """Method to plot the water table, the rises and the recharge.
 
         Parameters
@@ -217,7 +217,7 @@ class Model:
 
         """
         if ax is None:
-            _, axs = plt.subplots(2,1, sharex=True, figsize=(10,6))
+            _, axs = plt.subplots(2, 1, sharex=True, figsize=figsize)
 
         # Plot the water table
         self.wt.plot(ax=axs[0], label="Water table", marker=".", ls="none", color="k")
