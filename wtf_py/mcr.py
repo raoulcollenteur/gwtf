@@ -177,7 +177,7 @@ class MCR:
         """Plot the fittedmaster recession curve for diagnostic checking."""
         _, ax = plt.subplots(figsize=(6, 4))
 
-        dhdt_est = self.estimate_dhdt(self.wt.loc[self.dhdt.index])
+        dhdt_est = self.estimate_dhdt(wt.loc[self.dhdt.index])
 
         plt.plot(
             wt.loc[self.dhdt.index], -self.dhdt, marker=".", linestyle=" ", color="k"
