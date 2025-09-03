@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wtf_py"
+name = "gwtf"
 version = "0.1.0"
 description = "Python implementation of the Water Table Fluctuation (WTF) Method"
 readme = "README.md"
@@ -20,12 +20,10 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Hydrology",
 ]
 requires-python = ">=3.8"
@@ -55,19 +53,19 @@ examples = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/raoulcollenteur/wtf_py"
-Documentation = "https://wtf_py.readthedocs.io"
-Repository = "https://github.com/raoulcollenteur/wtf_py"
-Issues = "https://github.com/raoulcollenteur/wtf_py/issues"
-Changelog = "https://github.com/raoulcollenteur/wtf_py/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/raoulcollenteur/gwtf"
+Documentation = "https://gwtf.readthedocs.io"
+Repository = "https://github.com/raoulcollenteur/gwtf"
+Issues = "https://github.com/raoulcollenteur/gwtf/issues"
+Changelog = "https://github.com/raoulcollenteur/gwtf/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["wtf_py*"]
+include = ["gwtf*"]
 exclude = ["tests*"]
 
 [tool.setuptools.package-dir]
-"wtf_py" = "wtf_py"
+"gwtf" = "gwtf"
 
 # Black formatting
 [tool.black]
@@ -93,7 +91,7 @@ extend-exclude = '''
 profile = "black"
 multi_line_output = 3
 line_length = 88
-known_first_party = ["wtf_py"]
+known_first_party = ["gwtf"]
 
 # Pytest configuration
 [tool.pytest.ini_options]
@@ -102,7 +100,7 @@ python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
-    "--cov=wtf_py",
+    "--cov=gwtf",
     "--cov-report=term-missing",
     "--cov-report=html",
     "--cov-report=xml",
@@ -127,7 +125,7 @@ strict_equality = true
 
 # Coverage configuration
 [tool.coverage.run]
-source = ["wtf_py"]
+source = ["gwtf"]
 omit = [
     "*/tests/*",
     "*/test_*",

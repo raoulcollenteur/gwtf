@@ -1,58 +1,58 @@
 
 <p align="center">
-	<img src="docs/logo.png" alt="wtf-py logo" height="120"/>
+	<img src="docs/logo.png" alt="gwtf logo" height="120"/>
 </p>
 
-# wtf-py: Water Table Fluctuation Method in Python
+# gwtf: Groundwater Table Fluctuation Method in Python
 
-[![PyPI version](https://img.shields.io/pypi/v/wtf-py.svg)](https://pypi.org/project/wtf-py/)
-[![GitHub License](https://img.shields.io/github/license/raoulcollenteur/wtf-py)](https://github.com/raoulcollenteur/wtf-py?tab=GPL-3.0-1-ov-file)
+[![PyPI version](https://img.shields.io/pypi/v/gwtf.svg)](https://pypi.org/project/gwtf/)
+[![GitHub License](https://img.shields.io/github/license/raoulcollenteur/gwtf)](https://github.com/raoulcollenteur/gwtf?tab=MIT-1-ov-file)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![Tests](https://github.com/raoulcollenteur/wtf-py/actions/workflows/test.yml/badge.svg)](https://github.com/raoulcollenteur/wtf-py/actions)
+[![Tests](https://github.com/raoulcollenteur/gwtf/actions/workflows/test.yml/badge.svg)](https://github.com/raoulcollenteur/gwtf/actions)
 
 ---
 
-## What is wtf-py?
+## What is gwtf?
 
-wtf-py is an open-source Python package for processing, simulating, and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
+gwtf is an open-source Python package for processing, simulating, and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
 
 ---
 
 ## Documentation & Examples
 
-- Full documentation: [wtf-py.readthedocs.io](https://wtf-py.readthedocs.io/)
+- Full documentation: [gwtf.readthedocs.io](https://gwtf.readthedocs.io/)
 - Example notebooks: [`examples/`](examples/)
 
 ---
 
 ## Get in Touch
 
-- Questions? Use [GitHub Discussions](https://github.com/raoulcollenteur/wtf-py/discussions)
-- Found a bug or want a feature? Open an [issue](https://github.com/raoulcollenteur/wtf-py/issues)
+- Questions? Use [GitHub Discussions](https://github.com/raoulcollenteur/gwtf/discussions)
+- Found a bug or want a feature? Open an [issue](https://github.com/raoulcollenteur/gwtf/issues)
 - Contributions are welcome! See [`CONTRIBUTING.md`](CONTRIBUTING.md) (if available)
 
 ---
 
 ## Quick Installation Guide
 
-wtf-py requires Python 3.8 or higher. We recommend using [Anaconda](https://www.anaconda.com/products/distribution) for easy management of dependencies.
+gwtf requires Python 3.8 or higher. We recommend using [Anaconda](https://www.anaconda.com/products/distribution) for easy management of dependencies.
 
 ### Stable version
 
 ```bash
-pip install wtf-py
+pip install gwtf
 ```
 
 ### Update
 
 ```bash
-pip install wtf-py --upgrade
+pip install gwtf --upgrade
 ```
 
 ### Development version
 
 ```bash
-pip install git+https://github.com/raoulcollenteur/wtf-py.git@main#egg=wtf-py
+pip install git+https://github.com/raoulcollenteur/gwtf.git@main#egg=gwtf
 ```
 
 ---
@@ -61,9 +61,9 @@ pip install git+https://github.com/raoulcollenteur/wtf-py.git@main#egg=wtf-py
 
 ## How to Cite wtf-py
 
-If you use wtf-py in your research, please cite:
+If you use gwtf in your research, please cite:
 
-> Collenteur, R.A. (2025). wtf-py: Python implementation of the Water Table Fluctuation (WTF) Method. Zenodo. [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
+> Collenteur, R.A. (2025). gwtf: Python implementation of the Water Table Fluctuation (WTF) Method. Zenodo. [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 ---
 

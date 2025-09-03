@@ -1,4 +1,4 @@
-from wtf_py.version import show_versions
+from gwtf.version import show_versions
 
 
 def test_show_versions_runs():

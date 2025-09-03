@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from wtf_py.mcr import MCR
+from gwtf.mcr import MCR
 
 
 @pytest.fixture

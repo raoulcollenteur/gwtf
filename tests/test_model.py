@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from wtf_py.model import Model
+from gwtf.model import Model
 
 
 @pytest.fixture

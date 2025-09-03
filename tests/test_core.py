@@ -1,6 +1,6 @@
 import pytest
 
-from wtf_py.core import validate_data
+from gwtf.core import validate_data
 
 
 def test_validate_data_valid(valid_series):
