@@ -1,6 +1,6 @@
 
 <p align="center">
-	<img src="docs/logo.png" alt="gwtf logo" height="120"/>
+	<img src="docs/_static/logo.png" alt="gwtf logo" height="120"/>
 </p>
 
 # gwtf: Groundwater Table Fluctuation Method in Python
@@ -59,7 +59,7 @@ pip install git+https://github.com/raoulcollenteur/gwtf.git@main#egg=gwtf
 
 ---
 
-## How to Cite wtf-py
+## How to cite gwtf
 
 If you use gwtf in your research, please cite:
 
@@ -69,4 +69,4 @@ If you use gwtf in your research, please cite:
 
 ## License
 
-wtf-py is licensed under the GNU General Public License. See the [LICENSE](LICENSE) file for details.
+gwtf is licensed under the GNU General Public License. See the [LICENSE](LICENSE) file for details.
