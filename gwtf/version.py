@@ -1,4 +1,4 @@
-version = "0.2.0"
+__version__ = "0.2.0"
 
 
 def show_versions():
@@ -8,7 +8,7 @@ def show_versions():
     import pandas as pd
     import scipy as sp
 
-    print(f"gwtf: {version}")
+    print(f"gwtf: {__version__}")
     print(f"pandas: {pd.__version__}")
     print(f"numpy: {np.__version__}")
     print(f"scipy: {sp.__version__}")

@@ -7,8 +7,6 @@
 [![DOI](https://zenodo.org/badge/1015432306.svg)](https://doi.org/10.5281/zenodo.17462005)
 [![Tests](https://github.com/raoulcollenteur/gwtf/actions/workflows/test.yml/badge.svg)](https://github.com/raoulcollenteur/gwtf/actions)
 
----
-
 ## What is gwtf?
 
 gwtf is an open-source Python package for estimating and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
