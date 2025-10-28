@@ -1,5 +1,5 @@
 
-<p align="center">
+<p align="left">
 	<img src="docs/_static/logo.png" alt="gwtf logo" height="120"/>
 </p>
 
@@ -14,7 +14,7 @@
 
 ## What is gwtf?
 
-gwtf is an open-source Python package for processing, simulating, and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
+gwtf is an open-source Python package for estimating and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
 
 ---
 
@@ -29,13 +29,13 @@ gwtf is an open-source Python package for processing, simulating, and analyzing 
 
 - Questions? Use [GitHub Discussions](https://github.com/raoulcollenteur/gwtf/discussions)
 - Found a bug or want a feature? Open an [issue](https://github.com/raoulcollenteur/gwtf/issues)
-- Contributions are welcome! See [`CONTRIBUTING.md`](CONTRIBUTING.md) (if available)
+- Contributions are welcome! See [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ---
 
 ## Quick Installation Guide
 
-gwtf requires Python 3.8 or higher. We recommend using [Anaconda](https://www.anaconda.com/products/distribution) for easy management of dependencies.
+gwtf requires Python 3.9 or higher. We recommend using [Anaconda](https://www.anaconda.com/products/distribution) for easy management of dependencies, but any other Python distribution should work. Check `pyproject.toml` for the dependencies on other Python packages.
 
 ### Stable version
 
