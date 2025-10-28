@@ -4,7 +4,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/gwtf.svg)](https://pypi.org/project/gwtf/)
 [![GitHub License](https://img.shields.io/github/license/raoulcollenteur/gwtf)](https://github.com/raoulcollenteur/gwtf?tab=MIT-1-ov-file)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/1015432306.svg)](https://doi.org/10.5281/zenodo.17462005)
 [![Tests](https://github.com/raoulcollenteur/gwtf/actions/workflows/test.yml/badge.svg)](https://github.com/raoulcollenteur/gwtf/actions)
 
 ---
