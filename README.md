@@ -17,7 +17,7 @@ gwtf is an open-source Python package for estimating and analyzing groundwater r
 
 ## Code Example
 
-```
+```python
 import gwtf
 
 wt = pd.read_csv("head.csv", parse_dates=["date"], index_col="date")
