@@ -1,9 +1,8 @@
+# gwtf: Groundwater Table Fluctuation Method in Python
 
 <p align="left">
 	<img src="docs/_static/logo.png" alt="gwtf logo" height="120"/>
 </p>
-
-# gwtf: Groundwater Table Fluctuation Method in Python
 
 [![PyPI version](https://img.shields.io/pypi/v/gwtf.svg)](https://pypi.org/project/gwtf/)
 [![GitHub License](https://img.shields.io/github/license/raoulcollenteur/gwtf)](https://github.com/raoulcollenteur/gwtf?tab=MIT-1-ov-file)
@@ -15,6 +14,22 @@
 ## What is gwtf?
 
 gwtf is an open-source Python package for estimating and analyzing groundwater recharge using the Water Table Fluctuation (WTF) method. The package provides tools for event extraction, recharge estimation, and uncertainty analysis, all in a user-friendly and extensible framework.
+
+---
+
+## Code Example
+
+```
+import gwtf
+
+wt = pd.read_csv("head.csv", parse_dates=["date"], index_col="date")
+
+ml = wtf.Model(wt, name="Wagna", mcr=wtf.MCR())
+ml.mcr.fit_mcr(wt)
+
+r2= ml.estimate_recharge(rise_rule="rises", sy=0.15)
+r.resample("YE").sum().plot(kind="bar", figsize=(10, 2))
+```
 
 ---
 
