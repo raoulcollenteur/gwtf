@@ -1,8 +1,6 @@
 # gwtf: Groundwater Table Fluctuation Method in Python
 
-<p align="left">
-	<img src="docs/_static/logo.png" alt="gwtf logo" height="120"/>
-</p>
+<img src="docs/_static/logo.png" alt="gwtf logo" height="120" align="left">
 
 [![PyPI version](https://img.shields.io/pypi/v/gwtf.svg)](https://pypi.org/project/gwtf/)
 [![GitHub License](https://img.shields.io/github/license/raoulcollenteur/gwtf)](https://github.com/raoulcollenteur/gwtf?tab=MIT-1-ov-file)
