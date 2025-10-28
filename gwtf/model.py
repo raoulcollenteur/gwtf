@@ -44,11 +44,14 @@ class Model:
         # Settings dict
         self.settings = {
             "freq": "D",
-            "use_mcr": None  # None means use MCR when available
+            "use_mcr": None,  # None means use MCR when available
         }
 
-        self.parameters = DataFrame(index=["sy"], data=[[0.1, 0.1, 0.005]],
-                                    columns=["initial", "optimal", "stderr"])
+        self.parameters = DataFrame(
+            index=["sy"],
+            data=[[0.1, 0.1, 0.005]],
+            columns=["initial", "optimal", "stderr"],
+        )
 
         self.filter = None
         self.mcr = mcr
@@ -120,8 +123,10 @@ class Model:
             events_int = changes.index
 
         if events_int is None or events_int.empty:
-            raise ValueError("No recharge events found. Please check the water table "
-                             "data and the rise_method.")
+            raise ValueError(
+                "No recharge events found. Please check the water table "
+                "data and the rise_method."
+            )
         self.events = events_int
         return events_int
 
@@ -180,9 +185,11 @@ class Model:
 
         if sy is None:
             if self.parameters.loc["sy", "optimal"] is nan:
-                raise ValueError("The specific yield is not set. Please provide a value "
-                                 "for sy or set the optimal value using the "
-                                 "self.parameters DataFrame.")
+                raise ValueError(
+                    "The specific yield is not set. Please provide a value "
+                    "for sy or set the optimal value using the "
+                    "self.parameters DataFrame."
+                )
             else:
                 sy = self.parameters.loc["sy", "optimal"]
         else:
@@ -225,10 +232,13 @@ class Model:
         # Plot the rises
         if self.events is not None:
             for interval, rise in self.rises.items():
-                axs[0].plot([interval.left, interval.right],
-                            [self.wt.loc[interval.left],
-                             self.wt.loc[interval.left] + rise],
-                            lw=3, label="Rises", color="C1")
+                axs[0].plot(
+                    [interval.left, interval.right],
+                    [self.wt.loc[interval.left], self.wt.loc[interval.left] + rise],
+                    lw=3,
+                    label="Rises",
+                    color="C1",
+                )
 
         # Plot the recharge
         if self.events is not None:
@@ -243,5 +253,3 @@ class Model:
         plt.tight_layout()
 
         return axs
-
-

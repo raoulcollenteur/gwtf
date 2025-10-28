@@ -29,4 +29,3 @@ def validate_data(wt):
 
     if wt.empty:
         raise ValueError("The data is empty. Please provide a non-empty Pandas Series.")
-

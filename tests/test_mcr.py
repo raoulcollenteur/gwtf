@@ -51,7 +51,8 @@ def test_get_extrapolated(simple_wt):
     # Create dummy events
     idx = pd.date_range("2020-01-02", periods=5, freq="D")
     from pandas import IntervalIndex
-    events = IntervalIndex.from_arrays(left=idx- pd.Timedelta(days=1), right=idx)
+
+    events = IntervalIndex.from_arrays(left=idx - pd.Timedelta(days=1), right=idx)
     result = mcr.get_extrapolated(simple_wt, events)
     assert isinstance(result, pd.Series)
 
