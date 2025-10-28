@@ -1,3 +1,3 @@
-from .mcr import MCR
-from .model import Model
-from .version import show_versions, version
+from gwtf.mcr import MCR
+from gwtf.model import Model
+from gwtf.version import show_versions, version
